@@ -14,6 +14,7 @@ OpenAPI spec: [openapi.yaml](openapi.yaml)
  docker build -t chatgpt-plugin-plantuml .
  docker run -p 5003:5003 chatgpt-plugin-plantuml
  ```
+This exposes the API on port 5003 on localhost. To use the plugin: Follow the instructions in the [OpenAI Plugin documentation](https://platform.openai.com/docs/plugins/getting-started/running-a-plugin).
 
  ### Run the API locally
 
@@ -21,6 +22,7 @@ OpenAPI spec: [openapi.yaml](openapi.yaml)
  2. Install Java. To check if you have it already: ```java --version``` Java is needed to generate .png images from PlantUML.
  3. Download the plantuml.jar: ```wget "https://sourceforge.net/projects/plantuml/files/plantuml.jar/download" -O plantuml.jar```
  4. Run ```python main.py```
+ 5. Follow the instructions in the [OpenAI Plugin documentation](https://platform.openai.com/docs/plugins/getting-started/running-a-plugin) on how to use a plugin running on localhost.
 
  ### Test the API
 
