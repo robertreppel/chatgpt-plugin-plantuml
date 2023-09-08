@@ -1,8 +1,18 @@
-# PlantUML API. 
+# PlantUML Plugin for ChatGPT. 
 
-Generates .png files from [PlantUML](https://plantuml.com). 
+Makes [PlantUML](https://plantuml.com) diagrams. 
 
-POSTing PlantUML to the API returns a link to a statically hosted PNG file with the PlantUML diagram. 
+How it works: 
+
+- ChatGPT generates text in PlantUML notation and posts it to the plugin's API. 
+- The API returns a link to a statically hosted PNG file with the PlantUML diagram. 
+- ChatGPT downloads the PNG file and displays it.
+
+## Example:
+
+![ChatGPTScreenshot.png](ChatGPTScreenshot.png)
+
+As you can see, the results are somewhat hit and miss, depending on the prompt. It's best to iterate and maybe use the the generated PlantUML as a starting point for manual editing.   You can get the PlantUML text by using a ```Can you show me the PlantUML you generated for this?``` prompt. Syntax errors happen occasionally. I've had reasonably good luck with asking ChatGPT to fix them.
 
 OpenAPI spec: [openapi.yaml](openapi.yaml)
 
