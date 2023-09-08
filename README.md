@@ -1,6 +1,6 @@
 # PlantUML API. 
 
-Generates .png files from [PlantUML](https://plantuml.com/. 
+Generates .png files from [PlantUML](https://plantuml.com). 
 
 POSTing PlantUML to the API returns a link to a statically hosted PNG file with the PlantUML diagram. 
 
