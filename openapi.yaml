@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: PlantUML Diagram Generator API
+  description: An API to generate PlantUML diagrams.
+  termsOfService: 'http://example.com/terms/'
+  contact:
+    email: 'support@example.com'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://localhost:5003'
+paths:
+  /generate-diagram:
+    post:
+      operationId: generateDiagram
+      summary: Generate a PlantUML diagram.
+      description: Generate a PlantUML diagram based on the provided UML code and return a URI for the generated image.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlantUmlRequest'
+      responses:
+        '200':
+          description: Successfully generated the diagram and returned its URI.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imageUrl:
+                    type: string
+                    description: URI to download the generated PlantUML diagram.
+        '400':
+          description: Bad request, `umlCode` is required.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    PlantUmlRequest:
+      type: object
+      required:
+        - umlCode
+      properties:
+        umlCode:
+          type: string
+          description: The UML code for generating the diagram. This string should contain valid JSON.
+          pattern: '^\\{.*"umlCode"\\s*:\\s*".*".*\\}$' # Basic JSON validation.
+          
+          required:
+            - umlCode
+          example: "@startuml\nstart\n:Initialize;\n:Process Data;\nif (Is Valid?) then (yes)\n  :Continue Processing;\nelse (no)\n  :Stop;\nendif\n:Finalize;\nstop\n@enduml"
+

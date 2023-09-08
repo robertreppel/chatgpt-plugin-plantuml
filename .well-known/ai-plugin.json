@@ -1,0 +1,17 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "Diagram Builder",
+    "name_for_model": "PlantUML_Diagram_PNG_image_API",
+    "description_for_human": "Use ChatGPT to make diagrams (PlantUML)",
+    "description_for_model": "\/\/ # About this plugin:\r\n\/\/ This plugin can make all diagram types supported by PlantUML.\r\n\/\/ The API's generate-diagram endpoint takes a JSON object with a field containing PlantUML text as input and returns a JSON object with a field with a link to a .png image.\r\n\/\/ The generate-diagram request body must be valid JSON with a field called \"umlCode\". The \"umlCode\" field contains a string with PlantUML, escaped according to the The JavaScript Object Notation (JSON) Data Interchange Format RFC.\r\n\/\/ Example: { \"umlCode\": \"@startuml\\nstart\\n:Initialize;\\n:Process Data;\\nif (Is Valid?) then (yes)\\n  :Continue Processing;\\nelse (no)\\n  :Stop;\\nendif\\n:Finalize;\\nstop\\n@enduml\" }\r\n\/\/ # About generating Gantt diagrams:\r\n\/\/ For tasks: Ensure that each line in the generated PlantUml has only one task. To specify multiple conditions for the same task, use one line per condition.\r\n\/\/ When specifying dependencies, use the format \"[Task B] starts at [Task A]'s end\" for single dependencies. For multiple dependencies, avoid chaining conditions with multiple 'and' keywords in succession. Instead, determine which task ends last and set the dependent task to start after that.\r\n\/\/ Example umlCode field content for a Gantt diagram: @startgantt\\nProject starts 2020-07-01\\n[Prototype design] starts 2020-07-01\\n[Prototype design] ends 2020-07-15\\n[Test prototype] starts 2020-07-16\\n[Test prototype] lasts 10 days\\n@endgantt\r\n",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:5003/openapi.yaml"
+    },
+    "logo_url": "http://localhost:5003/logo.png",
+    "contact_email": "support@example.com",
+    "legal_info_url": "http://www.example.com/legal"
+}
