@@ -4,9 +4,9 @@ FROM python:3.11-buster
 # Set the working directory in the container to /app
 WORKDIR /app
 
-# Install Java and wget
+# Install Java, wget, and Graphviz
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jre-headless wget && \
+    apt-get install -y openjdk-11-jre-headless wget graphviz && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
