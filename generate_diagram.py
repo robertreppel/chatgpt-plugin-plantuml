@@ -1,37 +1,25 @@
 import os
 import asyncio
-import tempfile
-import shutil
 import aiofiles
+from plantuml import PlantUML
+import requests
+
 
 async def generate_diagram(plantuml_code: str) -> str:
-    # Use aiofiles for asynchronous file operations
-    async with aiofiles.open(tempfile.mktemp(suffix=".txt"), mode='wb') as temp:
-        temp_filename = temp.name
-        await temp.write(plantuml_code.encode('utf-8'))
+    # Configure the server URL from an environment variable, or default to the public server
+    server_url = os.environ.get('PLANTUML_SERVER_URL', 'http://www.plantuml.com/plantuml/png/')
+    
+    # Create a PlantUML instance
+    puml = PlantUML(url=server_url)
 
-    # Correct the output filename
-    output_filename = temp_filename.replace('.txt', '.png')
+    # Get the PNG diagram as bytes
+    diagram_bytes = puml.processes(plantuml_code)
 
-    # Generate the diagram using PlantUML
-    plantuml_path = "plantuml.jar"  # Update this path to your PlantUML jar location
-    command = ['java', '-jar', plantuml_path, '-tpng', temp_filename, '-o', os.path.dirname(output_filename)]
+    # Generate a destination path
+    destination_path = os.path.join('static', 'diagrams', "diagram_{}.png".format(hash(plantuml_code)))
 
-    # Use asyncio to run the subprocess command asynchronously
-    process = await asyncio.create_subprocess_exec(*command)
-    await process.communicate()
-
-    # Clean up the temporary text file
-    os.remove(temp_filename)
-
-    if not os.path.exists(output_filename):
-        raise FileNotFoundError(f"Expected output file {output_filename} not found.")
-
-    # Copy the generated file to /static/diagrams
-    destination_path = os.path.join('static', 'diagrams', os.path.basename(output_filename))
-    shutil.copy(output_filename, destination_path)
-
-    # Clean up the original generated file
-    os.remove(output_filename)
+    # Use aiofiles to save the diagram asynchronously
+    async with aiofiles.open(destination_path, 'wb') as f:
+        await f.write(diagram_bytes)
 
     return destination_path
