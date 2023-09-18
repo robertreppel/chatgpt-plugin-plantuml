@@ -4,22 +4,20 @@ FROM python:3.11-buster
 # Set the working directory in the container to /app
 WORKDIR /app
 
-# Install Java, wget, and Graphviz
+# Install Graphviz only
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jre-headless wget graphviz && \
+    apt-get install -y graphviz && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Download the PlantUML JAR
-RUN wget "https://sourceforge.net/projects/plantuml/files/plantuml.jar/download" -O plantuml.jar
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
+RUN pip install --upgrade pip
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Make port 5000 available to the world outside this container
+# Make port 5003 available to the world outside this container
 EXPOSE 5003
 
 # Define environment variable for Flask to run in production mode

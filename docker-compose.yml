@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5003"
+    volumes:
+      - .:/app
+    environment:
+      - PLANTUML_SERVER_URL=http://plantuml:8080/plantuml/png/
+
+  plantuml:
+    image: plantuml/plantuml-server:jetty
+    environment:
+      - BASE_URL=plantuml
+    ports:
+      - "8080:8080"
+

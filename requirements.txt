@@ -3,3 +3,6 @@ quart_cors
 aiofiles
 plantuml
 requests
+six
+PySocks
+
