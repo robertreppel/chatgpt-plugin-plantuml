@@ -11,6 +11,7 @@ services:
       - .:/app
     environment:
       - PLANTUML_SERVER_URL=http://plantuml:8080/plantuml/png/
+      - BASE_URL=http://api:5003
 
   plantuml:
     image: plantuml/plantuml-server:jetty

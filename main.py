@@ -18,6 +18,7 @@ async def root():
 
 from quart import url_for
 
+
 @app.post("/generate-diagram")
 async def post_generate_diagram():
     data = await request.json
@@ -25,11 +26,12 @@ async def post_generate_diagram():
     if not uml_code:
         return {"error": "umlCode is required"}, 400
 
-    await delete_old_png_files('static/diagrams') # Get rid of diagrams older than 5 minutes each time the API is called. For data privacy and to save space.
+    await delete_old_png_files('static/diagrams')
     
     output_file = await generate_diagram(uml_code)
     file_name = os.path.basename(output_file)
-    download_url = 'http://localhost:5003' + url_for('static', filename=f'diagrams/{file_name}')
+    base_url = os.environ.get("BASE_URL", "http://localhost:5003")  # Use default value if not set
+    download_url = base_url + url_for('static', filename=f'diagrams/{file_name}')
     return {"download_url": download_url}
 
 @app.route('/static/diagrams/<filename>')
@@ -44,16 +46,24 @@ async def plugin_logo():
 @app.get("/.well-known/ai-plugin.json")
 async def plugin_manifest():
     host = request.headers['Host']
+    base_url = os.environ.get("BASE_URL", "http://localhost:5003")  # Use default value if not set
+    
     with open("./.well-known/ai-plugin.json") as f:
         text = f.read()
-        return quart.Response(text, mimetype="text/json")
+        text = text.replace("http://localhost:5003", base_url)
+        
+    return quart.Response(text, mimetype="text/json")
+
 
 @app.get("/openapi.yaml")
 async def openapi_spec():
-    host = request.headers['Host']
+    base_url = os.environ.get("BASE_URL", "http://localhost:5003")  # Use default value if not set
+    
     with open("openapi.yaml") as f:
         text = f.read()
-        return quart.Response(text, mimetype="text/yaml")    
+        text = text.replace("http://localhost:5003", base_url)
+        
+    return quart.Response(text, mimetype="text/yaml")    
 
 def main():
     app.run(debug=True, host="0.0.0.0", port=5003)
